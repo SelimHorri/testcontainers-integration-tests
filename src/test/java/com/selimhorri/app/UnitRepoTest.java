@@ -16,12 +16,11 @@ class UnitRepoTest {
 	
 	@Autowired
 	private TestEntityManager testEntityManager;
-	
 	private Employee savedEmployee;
 	
 	@BeforeEach
 	void setUp() {
-		savedEmployee = this.testEntityManager.persist(Employee.builder().name("Yasmine").build());
+		this.savedEmployee = this.testEntityManager.persist(Employee.builder().name("Yasmine").build());
 	}
 	
 	@Test

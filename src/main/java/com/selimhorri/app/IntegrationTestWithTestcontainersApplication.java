@@ -1,9 +1,12 @@
 package com.selimhorri.app;
 
 import java.io.Serializable;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,15 +17,22 @@ import javax.persistence.Table;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @SpringBootApplication
 public class IntegrationTestWithTestcontainersApplication {
@@ -58,6 +68,23 @@ interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 }
 
+@RequiredArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Getter
+class ApiResponse<T> implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy__HH:mm:ss:SSSSSS")
+	private final ZonedDateTime timestamp = ZonedDateTime.now(ZoneId.systemDefault());
+	private final Integer totalResult;
+	private final HttpStatus httpStatus;
+	private final String status;
+	private final T responseBody;
+	
+}
+
 @RestController
 @RequiredArgsConstructor
 class EmployeeResource {
@@ -66,7 +93,19 @@ class EmployeeResource {
 	
 	@GetMapping
 	public List<Employee> findAll() {
-		return this.employeeRepository.findAll();
+		return this.employeeRepository.findAll()
+				.stream()
+					.distinct()
+					.collect(Collectors.toUnmodifiableList());
+	}
+	
+	@GetMapping("/custom")
+	public ResponseEntity<ApiResponse<List<Employee>>> findAllWithApiResponse() {
+		final var employees = this.employeeRepository.findAll()
+				.stream()
+					.distinct()
+					.collect(Collectors.toUnmodifiableList());
+		return ResponseEntity.ok(new ApiResponse<>(employees.size(), HttpStatus.OK, "success".toUpperCase(), employees));
 	}
 	
 	@GetMapping("/{name}")
