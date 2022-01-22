@@ -1,8 +1,7 @@
 package com.selimhorri.app;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -36,17 +33,17 @@ class IntegrationTestWithTestcontainersApplicationTests {
 	
 	@Test
 	void givenFindAllApiUrl_whenReturnList_thenListSizeShouldMatch() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/"))
-			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(this.employeeRepository.findAll().size())));
+		this.mockMvc.perform(get("/"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.size()", CoreMatchers.is(this.employeeRepository.findAll().size())));
 	}
 	
 	@Test
 	void givenName_whenNameMatchIgnoringCase_thenEmployeeShouldBeFound() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/Selim"))
-			.andExpect(MockMvcResultMatchers.status().isOk())
+		this.mockMvc.perform(get("/Selim"))
+			.andExpect(status().isOk())
 			// .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is("selim")));
-			.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("selim"));
+			.andExpect(jsonPath("$.name").value("selim"));
 	}
 	
 	@Test
