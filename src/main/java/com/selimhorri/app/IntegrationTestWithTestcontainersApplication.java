@@ -72,7 +72,7 @@ interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 @EqualsAndHashCode
 @ToString
 @Getter
-class ApiResponse<T> implements Serializable {
+final class ApiResponse<T> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
