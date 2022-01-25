@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,6 +66,26 @@ class Employee implements Serializable {
 interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	
 	Optional<Employee> findByNameIgnoreCase(final String name);
+	
+}
+
+@Service
+@RequiredArgsConstructor
+class EmployeeService {
+	
+	private final EmployeeRepository employeeRepository;
+	
+	public List<Employee> findAll() {
+		return this.employeeRepository.findAll()
+				.stream()
+					.distinct()
+					.collect(Collectors.toUnmodifiableList());
+	}
+	
+	public Employee findByNameIgnoreCase(final String name) {
+		return this.employeeRepository.findByNameIgnoreCase(name)
+				.orElseThrow(() -> new NoSuchElementException("### service not fond"));
+	}
 	
 }
 
