@@ -2,7 +2,7 @@ package com.selimhorri.app;
 
 import org.testcontainers.containers.MySQLContainer;
 
-public abstract class AbstractIntegrationTestSharedContainer {
+public abstract class AbstractTestSharedContainer {
 	
 	protected static final MySQLContainer<?> MYSQL_CONTAINER;
 	

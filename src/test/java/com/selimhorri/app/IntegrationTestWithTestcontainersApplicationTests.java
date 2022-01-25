@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class IntegrationTestWithTestcontainersApplicationTests extends AbstractIntegrationTestSharedContainer {
+class IntegrationTestWithTestcontainersApplicationTests extends AbstractTestSharedContainer {
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -33,7 +33,6 @@ class IntegrationTestWithTestcontainersApplicationTests extends AbstractIntegrat
 	void givenName_whenNameMatchIgnoringCase_thenEmployeeShouldBeFound() throws Exception {
 		this.mockMvc.perform(get("/Selim"))
 			.andExpect(status().isOk())
-			// .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is("selim")));
 			.andExpect(jsonPath("$.name").value("selim"));
 	}
 	

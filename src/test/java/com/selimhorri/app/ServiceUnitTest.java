@@ -29,7 +29,10 @@ class ServiceUnitTest {
 		when(this.employeeRepository.findByNameIgnoreCase("Selim"))
 				.thenReturn(Optional.of(this.employee));
 		when(this.employeeRepository.findAll())
-				.thenReturn(List.of(new Employee(null, ""), new Employee(null, "selim"), new Employee(null, "dgdfg "), new Employee(null, " maf")));
+				.thenReturn(List.of(new Employee(null, ""), 
+						new Employee(null, "selim"), 
+						new Employee(null, "dgdfg "), 
+						new Employee(null, " maf")));
 	}
 	
 	@Test

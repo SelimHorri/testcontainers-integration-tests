@@ -16,7 +16,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-class WebTestClientIntegrationTest extends AbstractIntegrationTestSharedContainer {
+class WebTestClientIntegrationTest extends AbstractTestSharedContainer {
 	
 	@Autowired
 	private WebTestClient webTestClient;
