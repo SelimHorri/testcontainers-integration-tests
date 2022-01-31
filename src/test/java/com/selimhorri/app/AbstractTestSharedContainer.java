@@ -4,11 +4,17 @@ import org.testcontainers.containers.MySQLContainer;
 
 public abstract class AbstractTestSharedContainer {
 	
-	protected static final MySQLContainer<?> MYSQL_CONTAINER;
+	protected static MySQLContainer<?> mysqlContainer;
 	
 	static {
-		MYSQL_CONTAINER = new MySQLContainer<>("mysql:5.7.33");
-		MYSQL_CONTAINER.start();
+		mysqlContainer = getInstance();
+		mysqlContainer.start();
+	}
+	
+	private synchronized static final MySQLContainer<?> getInstance() {
+		if (mysqlContainer == null)
+			mysqlContainer = new MySQLContainer<>("mysql:5.7.33");
+		return mysqlContainer;
 	}
 	
 	

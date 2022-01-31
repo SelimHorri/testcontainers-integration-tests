@@ -37,7 +37,6 @@ class WebTestClientIntegrationTest extends AbstractTestSharedContainer {
 	
 	@Test
 	void givenFindAllApiUrl_whenReturnList_thenListSizeShouldMatch() {
-		
 		this.webTestClient
 				.get()
 				.uri("/")

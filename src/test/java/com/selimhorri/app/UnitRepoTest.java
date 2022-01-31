@@ -1,6 +1,6 @@
 package com.selimhorri.app;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class UnitRepoTest extends AbstractTestSharedOracleContainer {
 		assertThat(savedEmployee.getId()).isNotNull();
 		assertThat(savedEmployee.getName()).isEqualTo("Yasmine");
 		
-		final Employee findByNameIgnoreCase = this.employeeRepository.findByNameIgnoreCase(savedEmployee.getName())
+		final var findByNameIgnoreCase = this.employeeRepository.findByNameIgnoreCase(savedEmployee.getName())
 				.orElseGet(Employee::new);
 		
 		assertThat(findByNameIgnoreCase).isNotNull();
