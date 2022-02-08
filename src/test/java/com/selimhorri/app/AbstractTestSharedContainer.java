@@ -13,7 +13,7 @@ public abstract class AbstractTestSharedContainer {
 	
 	private synchronized static final MySQLContainer<?> getInstance() {
 		if (mysqlContainer == null)
-			mysqlContainer = new MySQLContainer<>("mysql:5.7.33");
+			mysqlContainer = new MySQLContainer<>("mysql:5.7");
 		return mysqlContainer;
 	}
 	
